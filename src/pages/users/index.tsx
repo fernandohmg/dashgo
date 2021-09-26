@@ -6,7 +6,7 @@ import { Table, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/table";
 import React from "react";
 import { RiAddFill, RiPencilFill } from "react-icons/ri";
 import { Header } from "../../components/Header";
-import { Pagination } from "../../components/Paginations";
+import { Pagination } from "../../components/Pagination";
 import { Sidebar } from "../../components/Sidebar";
 
 export default function UserList() {
