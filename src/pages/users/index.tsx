@@ -4,6 +4,7 @@ import Icon from "@chakra-ui/icon";
 import { Box, Flex, Heading } from "@chakra-ui/layout";
 import { useBreakpointValue } from "@chakra-ui/media-query";
 import { Table, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/table";
+import Link from "next/link";
 import React from "react";
 import { RiAddFill, RiPencilFill } from "react-icons/ri";
 import { Header } from "../../components/Header";
@@ -23,15 +24,17 @@ export default function UserList() {
             <Heading size="lg" fontWeight="normal">
               Users
             </Heading>
-            <Button
-              as="a"
-              size="sm"
-              fontSize="sm"
-              colorScheme="pink"
-              leftIcon={<Icon as={RiAddFill} fontSize="20" />}
-            >
-              Create
-            </Button>
+            <Link href="/users/create" passHref>
+              <Button
+                as="a"
+                size="sm"
+                fontSize="sm"
+                colorScheme="pink"
+                leftIcon={<Icon as={RiAddFill} fontSize="20" />}
+              >
+                Create
+              </Button>
+            </Link>
           </Flex>
           <Table colorScheme="whiteAlpha">
             <Thead>
