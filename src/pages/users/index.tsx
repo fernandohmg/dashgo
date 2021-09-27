@@ -6,28 +6,16 @@ import { useBreakpointValue } from "@chakra-ui/media-query";
 import { Spinner } from "@chakra-ui/spinner";
 import { Table, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/table";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 import { RiAddFill, RiPencilFill } from "react-icons/ri";
-import { useQuery } from "react-query";
 import { Header } from "../../components/Header";
 import { Pagination } from "../../components/Pagination";
 import { Sidebar } from "../../components/Sidebar";
+import { useUsers } from "../../services/hooks/useUsers";
 
 export default function UserList() {
-  const { data, isLoading, isFetching, error } = useQuery("users", async () => {
-    const response = await fetch("http://localhost:3000/api/users");
-    const data = await response.json();
-
-    const users = data.users.map((user) => {
-      return {
-        id: user.id,
-        name: user.name,
-        email: user.email,
-        createdAt: new Date(user.createdAt).toLocaleDateString(),
-      };
-    });
-    return users;
-  });
+  const [page, setPage] = useState(1);
+  const { data, isLoading, isFetching, error } = useUsers(page);
 
   const isWideVersion = useBreakpointValue({ base: false, lg: true });
 
@@ -60,7 +48,7 @@ export default function UserList() {
             <Flex justify="center">
               <Spinner />
             </Flex>
-          ) : error ? (
+          ) : error || !data ? (
             <Flex justify="center">
               <Text>Failing in fetching data</Text>
             </Flex>
@@ -78,7 +66,7 @@ export default function UserList() {
                   </Tr>
                 </Thead>
                 <Tbody>
-                  {data.map((user) => {
+                  {data?.users.map((user) => {
                     return (
                       <Tr key={user.id}>
                         <Td px={["4", "4", "6"]}>
@@ -120,7 +108,11 @@ export default function UserList() {
                   })}
                 </Tbody>
               </Table>
-              <Pagination />
+              <Pagination
+                totalCount={data?.totalCount}
+                currentPage={page}
+                onPageChange={setPage}
+              />
             </>
           )}
         </Box>
