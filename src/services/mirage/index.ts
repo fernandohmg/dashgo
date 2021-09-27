@@ -1,5 +1,11 @@
 import faker from "faker";
-import { createServer, Factory, Model, Response } from "miragejs";
+import {
+  ActiveModelSerializer,
+  createServer,
+  Factory,
+  Model,
+  Response,
+} from "miragejs";
 
 type User = {
   name: string;
@@ -9,6 +15,9 @@ type User = {
 
 export function makeServer() {
   const server = createServer({
+    serializers: {
+      application: ActiveModelSerializer,
+    },
     models: {
       user: Model.extend<Partial<User>>({}),
     },
@@ -51,6 +60,7 @@ export function makeServer() {
           { users: parsedUsers }
         );
       });
+      this.get("users/:id");
       this.post("users");
 
       this.namespace = ""; //reseting the namespace because 'api' is the default namespace for nextjs serverside endpoints

@@ -23,7 +23,7 @@ export async function getUsers(page: number): Promise<GetUsersResponse> {
       id: user.id,
       name: user.name,
       email: user.email,
-      createdAt: new Date(user.createdAt).toLocaleDateString(),
+      createdAt: new Date(user.created_at).toLocaleDateString(),
     };
   });
   return { users, totalCount };
